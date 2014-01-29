@@ -3,7 +3,8 @@ the API class is a slightly modified version of SurveyMonkey.class.php found on 
 line 150 :
         $ca = 'C:\Program Files (x86)\PHP\ca-bundle.crt';     // download from http://curl.haxx.se/docs/caextract.html
 
-the ca-bundle.crt file goes in the PHP server folder specified in the API class. (current as of Jan-2014)
+the ca-bundle.crt file goes in the PHP server folder specified in the API class. 
+Alternatively, comment out line 158 and uncomment line 157 to disable SSL cert checking on windows server.
 
 Get an API key and access code from the SurveyMonkey API console for your account.
 Put those values into the two main modules  SMGetSurveyMetadata.php & SMGetSurveyResponses.php

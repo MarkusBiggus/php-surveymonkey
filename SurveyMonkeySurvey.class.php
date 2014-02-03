@@ -175,14 +175,13 @@ class SurveyMonkey_Survey {
                      $this->_pages[] = $obj;
                   }
                  break;
-/*              default:
+              default:
                  if (!is_array($value)) {
                     echo "unexpected survey property: $field:$value<br>";
                  } else {
                     echo "unexpected survey array: $field<br>";
                     print_r($value);
                  }
-*/
             }
           }
         }
@@ -206,7 +205,6 @@ class SurveyMonkey_Survey {
             $HTML .= "</table></div>";
             return $HTML ;
 	}
-
 }
 
 class SurveyMonkey_SurveyPage {
@@ -249,11 +247,13 @@ class SurveyMonkey_SurveyPage {
                      $this->_questions[] = $obj;
                   }
                  break;
-/*              default:
+              default:
                  if (!is_array($value)) {
                     echo "unexpected page property: $field:$value<br>";
+//                 } else {
+//                    echo "unexpected page array: $field<br>";
+//                    print_r($value);
                  }
-*/
             }
           }
         }
@@ -287,12 +287,13 @@ class SurveyMonkey_SurveyQuestion {
         const SM_SUBTYPE_VERTICAL_TWO_COL = 2;
         const SM_SUBTYPE_VERTICAL_THREE_COL = 3;
         const SM_SUBTYPE_HORIZ = 4;
-        const SM_SUBTYPE_SINGLE = 5;
-        const SM_SUBTYPE_MULTI = 6;
-        const SM_SUBTYPE_RATING = 7;
-        const SM_SUBTYPE_RANKING = 8;
-        const SM_SUBTYPE_NUMERICAL = 9;
-        const SM_SUBTYPE_ESSAY = 10;
+        const SM_SUBTYPE_MENU = 5;
+        const SM_SUBTYPE_SINGLE = 6;
+        const SM_SUBTYPE_MULTI = 7;
+        const SM_SUBTYPE_RATING = 8;
+        const SM_SUBTYPE_RANKING = 9;
+        const SM_SUBTYPE_NUMERICAL = 10;
+        const SM_SUBTYPE_ESSAY = 11;
         const SM_SUBTYPE_US = 12;
         const SM_SUBTYPE_INTERNATIONAL = 13;
         const SM_SUBTYPE_DATE_ONLY = 14;
@@ -330,7 +331,6 @@ class SurveyMonkey_SurveyQuestion {
 
 	public function __construct($question =array()) {
           $this->_answers=array();
-
           foreach ($question as $field => $value) {
             switch ($field) {
               case "question_id":
@@ -339,93 +339,103 @@ class SurveyMonkey_SurveyQuestion {
               case "heading":
                  $this->_heading = $value;
                  break;
-              case "subtype":
-                 switch ($value) {
-                     case "vertical":
-                       $this->_type = SM_SUBTYPE_VERTICAL;
-                       break;
-                     case "vertical_two_col":
-                       $this->_type = SM_SUBTYPE_VERTICAL_TWO_COL;
-                       break;
-                     case "vertical_three_col":
-                       $this->_type = SM_SUBTYPE_VERTICAL_THREE_COL;
-                       break;
-                     case "horiz":
-                       $this->_type = SM_SUBTYPE_HORIZ;
-                       break;
-                     case "menu":
-                       $this->_type = SM_SUBTYPE_MENU;
-                       break;
-                     case "single":
-                       $this->_type = SM_SUBTYPE_SINGLE;
-                       break;
-                     case "multi":
-                       $this->_type = SM_SUBTYPE_MULTI;
-                       break;
-                     case "rating":
-                       $this->_type = SM_SUBTYPE_RATING;
-                       break;
-                     case "ranking":
-                       $this->_type = SM_SUBTYPE_RANKING;
-                       break;
-                     case "numerical":
-                       $this->_type = SM_SUBTYPE_NUMERICAL;
-                       break;
-                     case "essay":
-                       $this->_type = SM_SUBTYPE_ESSAY;
-                       break;
-                     case "us":
-                       $this->_type = SM_SUBTYPE_US;
-                       break;
-                     case "international":
-                       $this->_type = SM_SUBTYPE_INTERNATIONAL;
-                       break;
-                     case "date_only":
-                       $this->_type = SM_SUBTYPE_DATE_ONLY;
-                       break;
-                     case "time_only":
-                       $this->_type = SM_SUBTYPE_TIME_ONLY;
-                       break;
-                     case "both":
-                       $this->_type = SM_SUBTYPE_BOTH;
-                       break;
-                     case "image":
-                       $this->_type = SM_SUBTYPE_IMAGE;
-                       break;
-                     case "video":
-                       $this->_type = SM_SUBTYPE_VIDEO;
-                       break;
-                     case "descriptive_text":
-                       $this->_type = SM_SUBTYPE_DESCRIPTIVE_TEXT;
-                       break;
-                     default:
-                       echo "unexpected question subtype: $value<br>";
-                   }
-                 break;
-              case "family":
-                 switch ($value) {
-                     case "single_choice":
-                       $this->_family = SM_FAMILY_SINGLE_CHOICE;
-                       break;
-                     case "matrix":
-                       $this->_family = SM_FAMILY_MATRIX;
-                       break;
-                     case "open_ended":
-                       $this->_family = SM_FAMILY_OPEN_ENDED;
-                       break;
-                     case "demographic":
-                       $this->_family = SM_FAMILY_DEMOGRAPGIC;
-                       break;
-                     case "datetime":
-                       $this->_family = SM_FAMILY_DATETIME;
-                       break;
-                     case "presenation":
-                       $this->_family = SM_FAMILY_PRESENTATION;
-                       break;
-                     default:
-                       echo "unexpected question family: $value<br>";
-                   }
-                 break;
+              case "type":
+                 $type = $value;
+                 foreach ($type as $field => $value) {
+                 switch ($field) {
+                    case "subtype":
+                       switch ($value) {
+                           case "vertical":
+                             $this->_subtype = self::SM_SUBTYPE_VERTICAL;
+                             break;
+                           case "vertical_two_col":
+                             $this->_subtype = self::SM_SUBTYPE_VERTICAL_TWO_COL;
+                             break;
+                           case "vertical_three_col":
+                             $this->_subtype = self::SM_SUBTYPE_VERTICAL_THREE_COL;
+                             break;
+                           case "horiz":
+                             $this->_subtype = self::SM_SUBTYPE_HORIZ;
+                             break;
+                           case "menu":
+                             $this->_subtype = self::SM_SUBTYPE_MENU;
+                             break;
+                           case "single":
+                             $this->_subtype = self::SM_SUBTYPE_SINGLE;
+                             break;
+                           case "multi":
+                             $this->_subtype = self::SM_SUBTYPE_MULTI;
+                             break;
+                           case "rating":
+                             $this->_subtype = self::SM_SUBTYPE_RATING;
+                             break;
+                           case "ranking":
+                             $this->_subtype = self::SM_SUBTYPE_RANKING;
+                             break;
+                           case "numerical":
+                             $this->_subtype = self::SM_SUBTYPE_NUMERICAL;
+                             break;
+                           case "essay":
+                             $this->_subtype = self::SM_SUBTYPE_ESSAY;
+                             break;
+                           case "us":
+                             $this->_subtype = self::SM_SUBTYPE_US;
+                             break;
+                           case "international":
+                             $this->_subtype = self::SM_SUBTYPE_INTERNATIONAL;
+                             break;
+                           case "date_only":
+                             $this->_subtype = self::SM_SUBTYPE_DATE_ONLY;
+                             break;
+                           case "time_only":
+                             $this->_subtype = self::SM_SUBTYPE_TIME_ONLY;
+                             break;
+                           case "both":
+                             $this->_subtype = self::SM_SUBTYPE_BOTH;
+                             break;
+                           case "image":
+                             $this->_subtype = self::SM_SUBTYPE_IMAGE;
+                             break;
+                           case "video":
+                             $this->_subtype = self::SM_SUBTYPE_VIDEO;
+                             break;
+                           case "descriptive_text":
+                             $this->_subtype = self::SM_SUBTYPE_DESCRIPTIVE_TEXT;
+                             break;
+                           default:
+                             echo "unexpected question subtype: $value<br>";
+                           }
+                       break; // end subtype type
+                       case "family":
+                       switch ($value) {
+                           case "single_choice":
+                             $this->_family = self::SM_FAMILY_SINGLE_CHOICE;
+                             break;
+                           case "multiple_choice":
+                             $this->_family = self::SM_FAMILY_MULTIPLE_CHOICE;
+                             break;
+                           case "matrix":
+                             $this->_family = self::SM_FAMILY_MATRIX;
+                             break;
+                           case "open_ended":
+                             $this->_family = self::SM_FAMILY_OPEN_ENDED;
+                             break;
+                           case "demographic":
+                             $this->_family = self::SM_FAMILY_DEMOGRAPGIC;
+                             break;
+                           case "datetime":
+                             $this->_family = self::SM_FAMILY_DATETIME;
+                             break;
+                           case "presentation":
+                             $this->_family = self::SM_FAMILY_PRESENTATION;
+                             break;
+                           default:
+                             echo "unexpected question family: $value<br>";
+                           }
+                       break; // end family type
+                       }  // end subtype
+                     }   // end foreach type
+                 break; // end type
               case "position":
                  $this->_position = intval($value);
                  break;
@@ -436,11 +446,13 @@ class SurveyMonkey_SurveyQuestion {
                      $this->_answers[] = $obj;
                   }
                  break;
-/*              default:
+              default:
                  if (!is_array($value)) {
                     echo "unexpected question property: $field:$value<br>";
+//                 } else {
+//                    echo "unexpected question array: $field<br>";
+//                    print_r($value);
                  }
-*/
             }
           }
         }
@@ -483,7 +495,7 @@ class SurveyMonkey_SurveyAnswer {
      */
 	protected $_text;
     /**
-     * @var sring answer text
+     * @var bool answer apply_all_rows
      */
 	protected $_apply_all_rows;
     /**
@@ -524,11 +536,14 @@ class SurveyMonkey_SurveyAnswer {
               case "visible":
                  $this->_visible = ($value == 1);
                  break;
-/*              default:
+              default:
                 if (!is_array($value)) {
                    echo "unexpected answer property: $field:$value<br>";
+//                 } else {
+//                    echo "unexpected answer array: $field<br>";
+//                    print_r($value);
                  }
-*/
+
             }
           }
         }
